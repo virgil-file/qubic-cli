@@ -155,7 +155,7 @@ void makeStandardTransaction(const char* nodeIp, int nodePort, const char* seed,
     memcpy(packet.transaction.destinationPublicKey, destPublicKey, 32);
     packet.transaction.amount = amount;
     uint32_t currentTick = getTickNumberFromNode(qc);
-    packet.transaction.tick = currentTick + scheduledTickOffset;
+    packet.transaction.tick = scheduledTickOffset;
     packet.transaction.inputType = 0;
     packet.transaction.inputSize = 0;
     KangarooTwelve((unsigned char*)&packet.transaction,
@@ -185,7 +185,7 @@ void makeStandardTransaction(const char* nodeIp, int nodePort, const char* seed,
         }
         checkTxOnTick(nodeIp, nodePort, txHash, packet.transaction.tick);
     } else {
-        LOG("run ./qubic-cli [...] -checktxontick %u %s\n", currentTick + scheduledTickOffset, txHash);
+        LOG("run ./qubic-cli [...] -checktxontick %u %s\n", scheduledTickOffset, txHash);
         LOG("to check your tx confirmation status\n");
     }
 }
@@ -223,7 +223,7 @@ void makeCustomTransaction(const char* nodeIp, int nodePort,
     memcpy(temp_packet.transaction.destinationPublicKey, destPublicKey, 32);
     temp_packet.transaction.amount = amount;
     uint32_t currentTick = getTickNumberFromNode(qc);
-    temp_packet.transaction.tick = currentTick + scheduledTickOffset;
+    temp_packet.transaction.tick = scheduledTickOffset;
     temp_packet.transaction.inputType = txType;
     temp_packet.transaction.inputSize = extraDataSize;
 
@@ -250,7 +250,7 @@ void makeCustomTransaction(const char* nodeIp, int nodePort,
     getTxHashFromDigest(digest, txHash);
     LOG("Transaction has been sent!\n");
     printReceipt(temp_packet.transaction, txHash, extraData);
-    LOG("run ./qubic-cli [...] -checktxontick %u %s\n", currentTick + scheduledTickOffset, txHash);
+    LOG("run ./qubic-cli [...] -checktxontick %u %s\n", scheduledTickOffset, txHash);
     LOG("to check your tx confirmation status\n");
 }
 
